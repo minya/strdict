@@ -26,7 +26,7 @@ void stream_reader_free(struct stream_reader_t *s)
 
 size_t realloc_buffer(char *buffer, size_t current_len, char **new_buffer);
 
-char *read_line(struct stream_reader_t *s)
+char *stream_reader_read_line(struct stream_reader_t *s)
 {
     size_t res_buffer_len = MIN_STR_BUFFER_LEN;
     char *response_buffer = (char *) calloc(1, res_buffer_len);

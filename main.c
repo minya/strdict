@@ -19,14 +19,27 @@ int main(int argc, char **argv)
     struct stream_reader_t *sr = stream_reader_create(dic_file, 4096);
     struct strset_t *set = strset_create(4096);
 
-    char *word = read_line(sr);
+    char *word = stream_reader_read_line(sr);
     while (0 != word) {
-        printf("%s\n", word);
         strset_insert(set, word);
-        word = read_line(sr);
+        word = stream_reader_read_line(sr);
     }
     fclose(dic_file);
     stream_reader_free(sr);
 
+    struct stream_reader_t *in = stream_reader_create(stdin, 256);
+    char *candidate = stream_reader_read_line(in);
+    while (0 != candidate) {
+        if (strset_contains(set, candidate)) {
+            printf("YES\n");
+        } else {
+            printf("NO\n");
+        }
+        free(candidate);
+        candidate = stream_reader_read_line(in);
+    }
+
+    stream_reader_free(in);
+    strset_free(set);
     return 0;
 }

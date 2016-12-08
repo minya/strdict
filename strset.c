@@ -1,10 +1,13 @@
 #include <string.h>
 #include "strset.h"
+#include "hash.h"
 
 struct strset_t *strset_create(size_t capacity)
 {
     struct strset_t *s =
         (struct strset_t *) calloc(1, sizeof(struct strset_t) + sizeof(struct strset_node_t *) * capacity);
+    s->hash_fn = FNV_hash;
+    s->capacity = capacity;
     return s;
 }
 
@@ -23,7 +26,7 @@ void strset_free(struct strset_t *s)
 
 void strset_insert(struct strset_t *s, char *key)
 {
-    int index = s->hash_fn(key);
+    int index = s->hash_fn(key) % s->capacity;
     if (0 == s->buffer[index]) {
         struct strset_node_t *new_node =
             (struct strset_node_t *) calloc(1, sizeof(struct strset_node_t));
@@ -45,7 +48,7 @@ void strset_insert(struct strset_t *s, char *key)
 
 int strset_contains(struct strset_t *s, char *key)
 {
-    int index = s->hash_fn(key);
+    int index = s->hash_fn(key) % s->capacity;
     struct strset_node_t *run = s->buffer[index];
     size_t len = strlen(key);
     while (0 != run) {

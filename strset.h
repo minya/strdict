@@ -8,7 +8,7 @@ struct strset_node_t {
 
 struct strset_t {
     size_t capacity;
-    int (*hash_fn)(char *);
+    uint32_t (*hash_fn)(char *);
     struct strset_node_t *buffer[];
 };
 
