@@ -9,3 +9,5 @@ OBJ = strset.o hash.o main.o stream_reader.o
 strdict: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
 
+clean:
+	rm -rf *.o
