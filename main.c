@@ -4,6 +4,8 @@
 #include "stream_reader.h"
 #include "strset.h"
 
+static const size_t DICT_SIZE = 1048576;
+
 int main(int argc, char **argv)
 {
     if (argc != 2) {
@@ -17,7 +19,7 @@ int main(int argc, char **argv)
     }
 
     struct stream_reader_t *sr = stream_reader_create(dic_file, 4096);
-    struct strset_t *set = strset_create(4096);
+    struct strset_t *set = strset_create(DICT_SIZE);
 
     char *word = stream_reader_read_line(sr);
     while (0 != word) {
