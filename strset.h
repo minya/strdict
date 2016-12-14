@@ -6,9 +6,15 @@ struct strset_node_t {
     struct strset_node_t *next;
 };
 
+struct strset_stat_t {
+    unsigned long write_total;
+    unsigned long write_collision_total;
+};
+
 struct strset_t {
     size_t capacity;
     uint32_t (*hash_fn)(char *);
+    struct strset_stat_t stat;
     struct strset_node_t *buffer[];
 };
 

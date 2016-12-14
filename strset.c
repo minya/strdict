@@ -26,6 +26,7 @@ void strset_free(struct strset_t *s)
 
 void strset_insert(struct strset_t *s, char *key)
 {
+    ++s->stat.write_total;
     int index = s->hash_fn(key) % s->capacity;
     if (0 == s->buffer[index]) {
         struct strset_node_t *new_node =
@@ -33,6 +34,7 @@ void strset_insert(struct strset_t *s, char *key)
         new_node->key = key;
         s->buffer[index] = new_node;
     } else {
+        ++s->stat.write_collision_total;
         struct strset_node_t *current = s->buffer[index];
         while (0 != current->next) {
             current = current->next;

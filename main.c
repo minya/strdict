@@ -4,7 +4,7 @@
 #include "stream_reader.h"
 #include "strset.h"
 
-static const size_t DICT_SIZE = 1048576;
+static const size_t DICT_SIZE = 4194304;
 
 int main(int argc, char **argv)
 {
@@ -42,6 +42,9 @@ int main(int argc, char **argv)
     }
 
     stream_reader_free(in);
+    /*printf("writes total: %zu, collision: %zu\n", \*/
+            /*set->stat.write_total, set->stat.write_collision_total);*/
     strset_free(set);
+
     return 0;
 }

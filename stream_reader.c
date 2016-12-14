@@ -24,7 +24,7 @@ void stream_reader_free(struct stream_reader_t *s)
     free(s);
 }
 
-size_t realloc_buffer(char *buffer, size_t current_len, char **new_buffer);
+/*size_t realloc_buffer(char *buffer, size_t current_len, char **new_buffer);*/
 
 char *stream_reader_read_line(struct stream_reader_t *s)
 {
@@ -55,9 +55,11 @@ char *stream_reader_read_line(struct stream_reader_t *s)
         }
 
         if (res_buffer_len == res_buffer_ptr) {
-            char *new_buffer;
-            res_buffer_len = realloc_buffer(response_buffer, res_buffer_len, &new_buffer);
-            response_buffer = new_buffer;
+            /*char *new_buffer;*/
+            /*res_buffer_len = realloc_buffer(response_buffer, res_buffer_len, &new_buffer);*/
+            /*response_buffer = new_buffer;*/
+            res_buffer_len *= 2;
+            response_buffer = (char *) realloc(response_buffer, res_buffer_len);
         }
 
         response_buffer[res_buffer_ptr++] = c;
@@ -65,18 +67,20 @@ char *stream_reader_read_line(struct stream_reader_t *s)
     } while(toBeRead > 0);
 
     if (res_buffer_len == res_buffer_ptr) {
-        char *new_buffer;
-        res_buffer_len = realloc_buffer(response_buffer, res_buffer_len, &new_buffer);
-        response_buffer = new_buffer;
+        /*char *new_buffer;*/
+        /*res_buffer_len = realloc_buffer(response_buffer, res_buffer_len, &new_buffer);*/
+        /*response_buffer = new_buffer;*/
+        res_buffer_len *= 2;
+        response_buffer = (char *) realloc(response_buffer, res_buffer_len);
     }
     response_buffer[res_buffer_ptr++] = 0;
     return response_buffer;
 }
 
-size_t realloc_buffer(char *buffer, size_t current_len, char **new_buffer)
-{
-    *new_buffer = (char *) calloc(1, current_len * 2);
-    memcpy(*new_buffer, buffer, current_len);
-    free(buffer);
-    return current_len * 2;
-}
+/*size_t realloc_buffer(char *buffer, size_t current_len, char **new_buffer)*/
+/*{*/
+    /**new_buffer = (char *) calloc(1, current_len * 2);*/
+    /*memcpy(*new_buffer, buffer, current_len);*/
+    /*free(buffer);*/
+    /*return current_len * 2;*/
+/*}*/
